@@ -26,19 +26,14 @@ var app = {
     // Bind any events that are required on startup. Common events are:
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
-        document.addEventListener('deviceready', this.onDeviceReady, false);
+        document.addEventListener('deviceready', this.onDeviceReady(), false);
     },
     // deviceready Event Handler
     //
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicity call 'app.receivedEvent(...);'
-    onDeviceReady: function() {
-        // app.receivedEvent('deviceready');
 
-        navigator.geolocation.getCurrentPosition(app.onSuccess, app.onError);
-    },
-
-    // current location was found, load up the map
+//    current location was found, load up the map
     onSuccess: function(position){
 
         var longitude = position.coords.longitude;
@@ -56,6 +51,10 @@ var app = {
 
     onError: function(error){
         alert('code: ' + error.code + '\n' + 'message: ' + error.message + '\n');
+    },
+
+    onDeviceReady: function() {
+        navigator.geolocation.getCurrentPosition(this.onSuccess, this.onError);
     }
 
     // Update DOM on a Received Event
