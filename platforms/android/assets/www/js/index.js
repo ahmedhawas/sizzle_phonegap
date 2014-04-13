@@ -33,17 +33,40 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        app.receivedEvent('deviceready');
+        // app.receivedEvent('deviceready');
+
+        navigator.geolocation.getCurrentPosition(app.onSuccess, app.onError);
     },
-    // Update DOM on a Received Event
-    receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
 
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
+    // current location was found, load up the map
+    onSuccess: function(position){
 
-        console.log('Received Event: ' + id);
+        var longitude = position.coords.longitude;
+        var latitude = position.coords.latitude;
+        var latLong = new google.maps.LatLng(latitude, longitude);
+
+        var mapOptions = {
+            center: latLong,
+            zoom: 16,
+            mapTypeId: google.maps.mapTypeId.ROADMAP
+        };
+
+        var map = new google.maps.Map.(document.getElementById("geolocation"), mapOptions);
+    },
+
+    onError: function(error){
+        alert('code: ' + error.code + '\n' + 'message: ' + error.message + '\n');
     }
+
+    // Update DOM on a Received Event
+    // receivedEvent: function(id) {
+    //     var parentElement = document.getElementById(id);
+    //     var listeningElement = parentElement.querySelector('.listening');
+    //     var receivedElement = parentElement.querySelector('.received');
+
+    //     listeningElement.setAttribute('style', 'display:none;');
+    //     receivedElement.setAttribute('style', 'display:block;');
+
+    //     console.log('Received Event: ' + id);
+    // }
 };
