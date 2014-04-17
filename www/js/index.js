@@ -17,6 +17,12 @@ var app = {
         };
 
         var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        var marker = new google.maps.Marker({
+            position: latLong,
+            map: map,
+            title: "This is a marker!",
+            animation: google.maps.Animation.DROP
+        });
     },
     onError: function(error){
         alert('code: ' + error.code + '\n' + 'message: ' + error.message + '\n');
